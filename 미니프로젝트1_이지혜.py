@@ -20,8 +20,13 @@ while True:
     import random # 난수 생성을 위한 random import
     c_sign = random.randint(1,3) # 1 = 가위, 2 = 바위, 3 = 보 이므로 컴퓨터는 1~3 까지의 난수 발생
     print("1. 가위 / 2. 바위 / 3. 보") # 번호 쓰기 전에 항상 나올 수 있도록 while 안에 추가하였음
-    h_sign = input("번호를 선택하세요. : ") # 입력값 검증 조건 넣고 싶다면??
-    h_sign = int(h_sign) # 사람이 낼 sign이 무엇인지 입력받고 숫자로 변환
+    h_sign = input("번호를 선택하세요. : ")
+
+    if not h_sign.isdecimal() or int(h_sign) not in range(1,4): # 입력값 검증
+        print("**1~3사이의 숫자를 입력하세요!**") # 문자 등 입력하면 다시 처음으로 가서 입력받기
+        continue
+
+    h_sign = int(h_sign) # 사람이 낼 sign이 무엇인지 입력받고 문자가 아니라면 숫자로 변환
 
     # 결과 분석
     # 서로 다른 것 냈을 때
@@ -75,7 +80,7 @@ while True:
         if challenge == "yes":
             print("="*25)
             continue # while 계속 돌기, 즉 게임 계속하기
-        else:
+        else: # 꼭 no 아니라도.. yes가 아닌 다른 내용 아무거나 넣으면 그냥 게임 종료되게
             # 게임 종료하며 현재까지 진행됐던 각 세트별 승패목록 출력
             print("=====게임을 종료합니다=====")
             print("---------승패목록---------")
