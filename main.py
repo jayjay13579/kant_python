@@ -1,80 +1,119 @@
-# MINI PROJECT 1
+# # 클래스 정의(선언) : 붕어빵 틀 만들기_ 회원 정보에 대한 틀을 만들겠다!
+# class User:  # 첫문자 대문자(파스칼 케이스)로 클래스 명 작성
+#     def __init__ (self, name): # 생성자 : 인스턴스가 처음 생성될 때 자동 호출
+#         # self : 클래스로 만들어진 인스턴스 자기 자신
+#         self.name = name # 인스턴스self 내에 정의된 변수 name-> self.name에 인수 name을 넣어줌 -> 변수 초기화
+#         # 왼쪽 : 회원 객체에 저장할 이름. 오른쪽 : 밖에서 전달받은 이름
+#     def show(self): #이름 return / class안에서 def 사용시 함수가 아니라 메서드라고 함
+#         return f"회원 이름 : {self.name}" # 인스턴스 내부 변수 name
+
+# # 인스턴스 생성 : 붕어빵 만들기
+# user_a = User("손흥민") # 내가 클래스에서 만든 인스턴스를 저장할 변수 # 여
+# #self 변수는 자동 할당, 나머지 변수(name)만 넣기
+
+# # 새 인스턴스 생성
+# user_b = User("이강인")
+
+# # User 클래스로 생성한 인스턴스 (메모리에 생성)
+
+# # 클래스의 인스턴스 변수
+# print(user_a.name)
+# print(user_b.name)
+
+# # 클래스의 메서드 접근
+# print(user_a.show())
+# print(user_b.show())
 
 
-print("="*30)
-print("      가위 / 바위 / 보 게임      ")
-print("="*30)
 
-player_name = input("플레이어 이름을 입력하세요. : ")
-# break를 빠져나와 완전히 게임을 초기화하지 않는 한, 이름을 다시 안 적어도 되도록 while 밖으로 빼버림
+# print(type(user_a))
+# print(user_a is user_b)
+# print(id(user_a))
+# print(id(user_b))
 
-# ------------------------------------------------기초 작업
-# while문 전에 미리 선언해야하는 + while 문 나오면 초기화 되어야 하는 변수 미리 작성
-c_score = 0 # 컴퓨터의 스코어
-h_score = 0 # 사람의 스코어
-result_list = [] # 나중에 승패 결과 하나씩 넣어서 한번에 보여줄 때 쓸 결과 리스트
-relay_win_count = 1 # 연승기록. 이 변수가 나타날때는 이미 이전에 승리를 한 상태여야 하므로 1로 시작
-game_result = "미정" # 뒤에 연승 체크 때문에 변수를 먼저 선언...안적으면 error가 발생해서.. while 안에 넣으면 연승 확인 못함
+# # ==================
 
-while True:
-    import random # 난수 생성을 위한 random import
-    c_sign = random.randint(1,3) # 1 = 가위, 2 = 바위, 3 = 보 이므로 컴퓨터는 1~3 까지의 난수 발생
-    print("1. 가위 / 2. 바위 / 3. 보") # 번호 쓰기 전에 항상 나올 수 있도록 while 안에 추가하였음
-    h_sign = int(input("번호를 선택하세요. : ")) # 사람이 낼 sign이 무엇인지 입력받고 숫자로 변환
+class Monitor:
+    def display_info(self):
+        # 인스턴스 변수
+        self.resolution = "1920x1080"
+        self.size = "27인치"
+        print(f"모니터 정보\n해상도 : {self.resolution}\n크기 : {self.size}\n객체id : {id(self)}") #\n 줄바꿈
 
-    # 결과 분석
-    # 서로 다른 것 냈을 때
-    if c_sign != h_sign:
-        # 내가 이기는 경우 = 컴이 지는 경우
-        if (c_sign == 1 and h_sign == 2) or (c_sign == 2 and h_sign == 3) or (c_sign == 3 and h_sign == 1) :
-            if game_result == "승리": # 직전에 저장되어있던 game_result가 "승리"일때 -> 즉 이번에 연승일때
-                relay_win_count += 1
-            h_score += 1 # 사람 스코어 +1
-            game_result = "승리" # 게임 결과를 사람기준으로 승리로 저장
-            counter_result = "패배" # 컴 결과는 패배로 저장
+monitor = Monitor() # 인스턴스 생성(모니터 객체 생성) / parameter 없기 때문에 인수 없음
+print(id(monitor)) # 모니터 인스턴스의 id 출력 
 
-        else: # 내가 지는 경우 = 컴이 이기는 경우
-            c_score += 1
-            game_result = "패배"
-            counter_result = "승리"
-
-    else: # 서로 같은 것 내서 비겼을 때, 이때는 스코어 누계안함
-        game_result = "비김"
-        counter_result = "비김"
-
-    # 한 턴의 결과 분석 후 나중에 승패 목록으로 보여줄 리스트에 해당 데이터를 넣어둠
-    result_list_element = f"       {game_result} | {counter_result}"
-    result_list.append(result_list_element)
-
-    # 결과 표시
-    signs = ["가위","바위","보"] # 결과 표시할 때 숫자를 가위, 바위,보로 바꿔주려고 넣어줌
-    print("-------------------------") # 가독성을 위한 구분선 추가
-    print("[게임결과]")
-    print(f"{player_name} : {signs[h_sign-1]} vs 컴퓨터 : {signs[c_sign-1]}") # signs 리스트에서 인덱스로 가위바위보로 빼오기
-    print(f"현재 스코어 - {player_name} {h_score} : 컴퓨터 {c_score} ")
-    print("-------------------------")
+monitor.display_info() # 근데 클래스 안에 함수가 있으면 이렇게 하지 않아도 디스플레이 정보 나와야하는거 아냐?
 
 
-    if relay_win_count >=2: # 만약 연승 상태라면 메시지 보여주기
-        print(f"{relay_win_count}연승째입니다!")
+# # ===========================
 
-    if h_score == 2 or c_score == 2: # 만약 누군가가 2승을 한 상태라면
-        print("3판 2선승 게임 종료!")
-        print("---------승패목록---------")
-        print(f"     {player_name} vs 컴퓨터 ")
-        for result in result_list:
-            print(result)
-        
-        c_score = 0 # 스코어 초기화 -> 새 게임(3판2선승) 시작 대비
-        h_score = 0 # 스코어 초기화 -> 새 게임(3판2선승) 시작 대비
+class SmartPhone:
+    def __init__(self, model):
+        self.model = model # 인스턴스 변수 = 속성(attribute)
+        self.battery = 50 # 속성 기본값
 
-        challenge = input("다시 도전 (yes/no) : ") # while 계속 진행여부 확인
-        if challenge == "yes":
-            print("-------------------------") # 구분선(그냥 결과 구분해서 보려고 넣음)
-            continue # while 계속 돌기, 즉 게임 계속하기
+    def charge(self, amount):
+        self.battery += amount # init에서 정의한 self.battery를 다른 메서드에서 쓸 수 있음
+        if self.battery > 100 :
+            self.battery = 100 # 100이상이라는 개념이 없으니 우선 100으로 다시 정의해줌
+            print(f"배터리 충전완료 : {self.battery}%")
         else:
-            break # while 빠져나오기
+            print(f"배터리 충전 중... : {self.battery}%")
 
-    else: # 만약 아직 2승이 나오지 않은 상태라면
-        continue # 게임 계속 진행
+phone_a = SmartPhone("아이폰")
+print(phone_a.model)
+phone_a.charge(30)
+phone_a.charge(30)
 
+phone_b = SmartPhone("갤럭시")
+print(phone_b.model)
+phone_a.charge(30)
+phone_a.charge(30)
+
+# 전체주석처리 ctrl + /
+
+# 은행 계좌 클래스
+
+class BankAccount:
+    # 계좌 기본 정보 정의
+    def __init__(self, owner, balance):
+        self.owner = owner # 예금주
+        self.balance = balance # 잔액
+
+    def __str__(self): # str? 어떤때 쓰는거? 인스턴스를 사람이 읽기 좋은 문자열로 표현
+        return f"예금주 : {self.owner}, 잔액 : {self.balance:,}" # 천단위 끊기 :,
+
+    # def __repr__(self): # representation 위와 같은 기능
+    #     return f"예금주 : {self.owner}, 잔액 : {self.balance:,}" # 천단위 끊기 :,
+
+    #입금 처리 메서드
+    def deposit(self, amount):
+        self.balance += amount # 입금 처리
+        print(f"{amount:,} 입금 완료 / 잔액 : {self.balance:,} 원")
+
+    #출금 처리 메서드
+    def withdrawl(self, amount):
+        # psudo code : 로직을 미리 글로 표현해보기
+        # 잔액 확인
+        if amount > self.balance: # 잔액이 부족하면
+            print(f"잔액이 부족합니다. 현재 잔액 : {self.balance:,} 원")
+            return 0 # 이건 왜 하는거?? (아래 else안쓰고 이걸로 처리하는 이유는?)
+        else:
+            self.balance -= amount # 출금 
+            print(f"{amount:,} 출금 완료 / 잔액 : {self.balance:,} 원")
+            return self.balance # 출금 후 잔액 return 
+
+account_a = BankAccount("이지혜", 100_000) # _로 세자리 끊어읽기
+print(account_a)
+
+account_a.deposit(500_000) # 500,000 입금 완료 / 잔액 : 600,000 원
+account_a.withdrawl(500_000) # 500,000 출금 완료 / 잔액 : 100,000 원
+account_a.withdrawl(500_000) # 잔액이 부족합니다. 현재 잔액 : 100,000 원
+print(f"잔액: {account_a.withdrawl(100_000)}")  # 이미 print문 포함한 것을 다시 출력하면?
+# 100,000 출금 완료 / 잔액 : 0 원
+# 잔액: 0
+
+
+account_c = BankAccount("홍길동", 200_000)
+print([account_a, account_c])
